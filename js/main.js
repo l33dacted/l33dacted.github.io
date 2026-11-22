@@ -1,4 +1,4 @@
-/* s14ke — firmware lab
+/* L33DACTED — firmware lab
    Motion is driven by anime.js v4 (window.anime, UMD build loaded before this file).
    Everything degrades: without anime or with prefers-reduced-motion the page is simply static. */
 
@@ -15,6 +15,7 @@
 
     initNavActive();
     initMobileNav();
+    initLogoDecode(reduce);
     initCodeBlocks(A, motion);
     initTables();
     initLightbox(A, motion);
@@ -43,6 +44,65 @@
 
   function $all(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
 
+  /* ------------------------------------------------------------------ wordmark */
+
+  /* The wordmark sits at [REDACTED] and decodes to [L33DACTED] while hovered or
+     focused, one character at a time, with the unresolved tail churning through
+     glyphs. Leaving reverses the same way. Under prefers-reduced-motion the two
+     states still swap, just without the churn. */
+  function initLogoDecode(reduce) {
+    var logo = document.getElementById('logo');
+    var text = logo && logo.querySelector('.logo-text');
+    if (!text) return;
+
+    var FROM = logo.getAttribute('data-redacted') || '[REDACTED]';
+    var TO = logo.getAttribute('data-revealed') || '[L33DACTED]';
+    var NOISE = '!<>-_\\/[]{}=+*^?#01';
+    var STEP_MS = 34;          /* one frame of churn */
+    var LOCK_EVERY = 2;        /* frames between locking the next character */
+
+    var timer = null;
+    var frame = 0;
+    var target = FROM;
+
+    function render(locked) {
+      var out = '';
+      for (var i = 0; i < target.length; i++) {
+        if (i < locked) out += target[i];
+        else if (target[i] === '[' || target[i] === ']') out += target[i];
+        else out += NOISE[(frame * 7 + i * 13) % NOISE.length];
+      }
+      text.textContent = out;
+    }
+
+    function run(next) {
+      if (target === next) return;
+      target = next;
+      if (reduce) { text.textContent = next; return; }
+      clearInterval(timer);
+      frame = 0;
+      timer = setInterval(function () {
+        frame += 1;
+        var locked = Math.floor(frame / LOCK_EVERY);
+        render(locked);
+        if (locked >= target.length) {
+          clearInterval(timer);
+          timer = null;
+          text.textContent = target;
+        }
+      }, STEP_MS);
+    }
+
+    logo.addEventListener('mouseenter', function () { run(TO); });
+    logo.addEventListener('mouseleave', function () { run(FROM); });
+    logo.addEventListener('focus', function () { run(TO); });
+    logo.addEventListener('blur', function () { run(FROM); });
+    /* a tab switch mid-churn would otherwise leave noise frozen on screen */
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden && timer) { clearInterval(timer); timer = null; text.textContent = target; }
+    });
+  }
+
   function initTheme() {
     var button = document.getElementById('theme-toggle');
     var root = document.documentElement;
@@ -62,14 +122,14 @@
     apply(root.getAttribute('data-theme') || 'light');
     button.addEventListener('click', function () {
       var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      try { localStorage.setItem('s14ke-theme', next); } catch (e) { /* storage can be disabled */ }
+      try { localStorage.setItem('l33dacted-theme', next); } catch (e) { /* storage can be disabled */ }
       apply(next);
     });
 
     if (window.matchMedia) {
       var preference = window.matchMedia('(prefers-color-scheme: dark)');
       var onPreferenceChange = function (event) {
-        try { if (localStorage.getItem('s14ke-theme')) return; } catch (e) { /* use system setting */ }
+        try { if (localStorage.getItem('l33dacted-theme')) return; } catch (e) { /* use system setting */ }
         apply(event.matches ? 'dark' : 'light');
       };
       if (preference.addEventListener) preference.addEventListener('change', onPreferenceChange);

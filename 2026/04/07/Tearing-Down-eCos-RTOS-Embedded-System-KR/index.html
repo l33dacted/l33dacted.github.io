@@ -5,28 +5,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#ffffff">
-  <script>(function(){var theme;try{theme=localStorage.getItem('s14ke-theme');}catch(e){}if(theme!=='dark'&&theme!=='light')theme=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',theme);if(theme==='dark')document.querySelector('meta[name="theme-color"]').setAttribute('content','#0b0b0d');})();</script>
-  <title>Tearing Down eCos RTOS Embedded System | s14ke</title>
+  <script>(function(){var theme;try{theme=localStorage.getItem('l33dacted-theme');}catch(e){}if(theme!=='dark'&&theme!=='light')theme=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',theme);if(theme==='dark')document.querySelector('meta[name="theme-color"]').setAttribute('content','#0b0b0d');})();</script>
+  <title>Tearing Down eCos RTOS Embedded System | L33DACTED</title>
   <meta name="description" content="플래시 덤프와 부트로더부터 RTOS 내부 구조까지 살펴보는 eCos 기반 임베디드 시스템 분석.">
 
-  <link rel="canonical" href="https://s14ke.kr/2026/04/07/Tearing-Down-eCos-RTOS-Embedded-System-KR/">
+  <link rel="canonical" href="https://l33dacted.info/2026/04/07/Tearing-Down-eCos-RTOS-Embedded-System-KR/">
   
-  <link rel="alternate" hreflang="ko" href="https://s14ke.kr/2026/04/07/Tearing-Down-eCos-RTOS-Embedded-System-KR/">
-  <link rel="alternate" hreflang="en" href="https://s14ke.kr/2026/03/30/Tearing-Down-eCos-RTOS-Embedded-System/">
-  <link rel="alternate" hreflang="x-default" href="https://s14ke.kr/2026/03/30/Tearing-Down-eCos-RTOS-Embedded-System/">
+  <link rel="alternate" hreflang="ko" href="https://l33dacted.info/2026/04/07/Tearing-Down-eCos-RTOS-Embedded-System-KR/">
+  <link rel="alternate" hreflang="en" href="https://l33dacted.info/2026/03/30/Tearing-Down-eCos-RTOS-Embedded-System/">
+  <link rel="alternate" hreflang="x-default" href="https://l33dacted.info/2026/03/30/Tearing-Down-eCos-RTOS-Embedded-System/">
   
-  <link rel="alternate" type="application/atom+xml" title="s14ke" href="/atom.xml">
+  <link rel="alternate" type="application/atom+xml" title="L33DACTED" href="/atom.xml">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Tearing Down eCos RTOS Embedded System | s14ke">
+  <meta property="og:title" content="Tearing Down eCos RTOS Embedded System | L33DACTED">
   <meta property="og:description" content="플래시 덤프와 부트로더부터 RTOS 내부 구조까지 살펴보는 eCos 기반 임베디드 시스템 분석.">
-  <meta property="og:url" content="https://s14ke.kr/2026/04/07/Tearing-Down-eCos-RTOS-Embedded-System-KR/">
-  <meta property="og:site_name" content="s14ke">
+  <meta property="og:url" content="https://l33dacted.info/2026/04/07/Tearing-Down-eCos-RTOS-Embedded-System-KR/">
+  <meta property="og:site_name" content="L33DACTED">
   <meta property="og:locale" content="ko_KR">
-  <meta property="og:image" content="https://s14ke.kr/images/og-default.png">
+  <meta property="og:image" content="https://l33dacted.info/images/og-default.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://s14ke.kr/images/og-default.png">
+  <meta name="twitter:image" content="https://l33dacted.info/images/og-default.png">
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.css">
@@ -38,7 +38,8 @@
   <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
   <header class="site-header">
   <div class="header-inner">
-    <a href="/" class="logo" aria-label="s14ke home">s14ke</a>
+    <a href="/" class="logo" id="logo" aria-label="L33DACTED home"
+       data-redacted="[REDACTED]" data-revealed="[L33DACTED]"><span class="logo-swap" aria-hidden="true"><span class="logo-ghost">[L33DACTED]</span><span class="logo-text">[REDACTED]</span></span></a>
     <div class="header-actions">
       <button class="menu-toggle" id="menu-toggle" type="button" aria-controls="site-nav" aria-expanded="false">Menu</button>
       <nav class="site-nav" id="site-nav" aria-label="Primary">
@@ -72,7 +73,7 @@
           <span class="meta-item meta-tags"><a href="/tags/IoT/" class="meta-tag">IoT</a><a href="/tags/RTOS/" class="meta-tag">RTOS</a></span>
         
         <span class="meta-item">14 min read</span>
-        <a href="/2026/03/30/Tearing-Down-eCos-RTOS-Embedded-System/" class="meta-item meta-alt" hreflang="en">Read in English</a>
+        <a href="/2026/03/30/Tearing-Down-eCos-RTOS-Embedded-System/" class="meta-item meta-alt" hreflang="en" title="Read in English" aria-label="Read in English">EN</a>
       </div>
 
       
@@ -101,7 +102,7 @@
 <li>8: VCC (공급 전압)</li>
 </ul>
 <p>BH25D16A는 SPI 버스의 전용 (공유되지 않는) 접근이 필요한 환경을 위해 설계되었으므로 다른 장치와 버스를 공유하기 위한 &#x2F;HOLD 핀이 없습니다. 또한 플래시 메모리 읽기만 수행하기 때문에 &#x2F;WP 핀은 연결하지 않았습니다 (읽기 전용 작업에는 필요하지 않음).</p>
-<h3 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h3><pre><code class="hljs plaintext">┌──────────┐                     ┌──────────┐
+<h3 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h3><pre><code class="hljs text">┌──────────┐                     ┌──────────┐
 │          │──── MOSI (SDI) ────&gt;│          │
 │          │&lt;─── MISO (SDO) ─────│          │
 │  Master  │──── SCLK (CLK) ────&gt;│  Slave   │
@@ -137,12 +138,12 @@
 <td align="center">LOW로 설정 시 슬레이브 선택</td>
 </tr>
 </tbody></table>
-<h3 id="Clock-Signal"><a href="#Clock-Signal" class="headerlink" title="Clock Signal"></a>Clock Signal</h3><pre><code class="hljs plaintext">SCLK  __/‾\_/‾\_/‾\_/‾\__
+<h3 id="Clock-Signal"><a href="#Clock-Signal" class="headerlink" title="Clock Signal"></a>Clock Signal</h3><pre><code class="hljs text">SCLK  __/‾\_/‾\_/‾\_/‾\__
 MOSI  -[1]-[0]-[1]-[1]---
         ↑   ↑   ↑   ↑
       클럭 엣지마다 1비트씩 전송함</code></pre>
 <p>클록 신호는 장치들에게 언제 데이터를 읽거나 써야 하는지를 알려주는 타이밍 신호 역할을 수행하여 여러 장치가 통신하는 동안 동기화 상태를 유지하도록 합니다. 마스터는 클럭을 정의하고, 슬레이브는 클럭 엣지 (SPI 모드 0&#x2F;3의 상승 엣지) 에서 데이터를 샘플링합니다.</p>
-<h3 id="SPI-Communication-Diagram"><a href="#SPI-Communication-Diagram" class="headerlink" title="SPI Communication Diagram"></a>SPI Communication Diagram</h3><pre><code class="hljs plaintext">CS   ‾‾‾‾\___________________________________/‾‾‾‾
+<h3 id="SPI-Communication-Diagram"><a href="#SPI-Communication-Diagram" class="headerlink" title="SPI Communication Diagram"></a>SPI Communication Diagram</h3><pre><code class="hljs text">CS   ‾‾‾‾\___________________________________/‾‾‾‾
         ↑ CS LOW (통신 시작)                   ↑ CS HIGH (통신 종료)
 
 SCLK _______/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_/‾\_______
@@ -398,7 +399,7 @@ DRAM:<span class="hljs-number">8000047</span>C                    nop
   <span class="hljs-keyword">return</span> v7();
 &#125;</code></pre>
 
-<pre><code class="hljs plaintext">RTL8197F-VG boot release version: ... (600MHz)
+<pre><code class="hljs text">RTL8197F-VG boot release version: ... (600MHz)
 Mac addr:...
 port link ...
 Jump to image start:0x80700000...</code></pre>
@@ -500,7 +501,7 @@ DRAM:<span class="hljs-number">8070160</span>C                    move    $v0, $
 DRAM:<span class="hljs-number">80701610</span>                    lw      $ra, <span class="hljs-number">0xCC</span>($sp)           <span class="hljs-meta"># restore $ra (= 0x80700220, set by jal at 0x80700218)                                                                                    </span>
 DRAM:<span class="hljs-number">8070162</span>C                    jr      $ra                      <span class="hljs-meta"># return to decompress_kernal_n_jump @ 0x80700220</span>
 DRAM:<span class="hljs-number">80701630</span>                    addiu   $sp, <span class="hljs-number">0xD0</span>                <span class="hljs-meta"># delay: restore caller<span class="hljs-string">&#x27;s stack</span></span></code></pre>
-<pre><code class="hljs plaintext">// Generated by Claude Code Opus 4.6
+<pre><code class="hljs text">// Generated by Claude Code Opus 4.6
 
 kernel_decompressor_entry (0x80700008)
   BSS clear → $sp setup → j 0x807001E8
@@ -525,7 +526,7 @@ decompress_kernal_n_jump + 0x38  ◄──────┘  (0x80700220)
 
 <p>LZMA (Lempel-Ziv-Markov chain Algorithm) Decompressor는 커널 코드를 KSEG1 (0xA0000000) 으로 압축 해제를 수행합니다.</p>
 <h3 id="Why-KSEG1-for-Kernel-Decompression-Output"><a href="#Why-KSEG1-for-Kernel-Decompression-Output" class="headerlink" title="Why KSEG1 for Kernel Decompression Output?"></a>Why KSEG1 for Kernel Decompression Output?</h3><p>압축 해제된 커널은 0xA0000000 (KSEG1, 캐시되지 않음) 에 기록되며, 0x80000000 (KSEG0, 캐시됨) 에는 기록되지 않습니다. 두 주소 모두 동일한 물리적 DRAM 주소인 0x00000000에 매핑됩니다:</p>
-<pre><code class="hljs plaintext">MIPS Virtual Address    Cache Mode    Physical Address
+<pre><code class="hljs text">MIPS Virtual Address    Cache Mode    Physical Address
 ────────────────────    ──────────    ────────────────
 0xA0000000 (KSEG1)       Uncached     0x00000000 (DRAM)
 0x80000000 (KSEG0)        Cached      0x00000000 (DRAM)   &lt;- 동일한 물리 주소</code></pre>
@@ -641,10 +642,10 @@ DRAM:<span class="hljs-number">8021</span>DA84  lw      $a0, <span class="hljs-n
 
   <footer class="site-footer">
   <div class="footer-inner">
-    <span class="footer-left">&copy; 2026 s14ke</span>
+    <span class="footer-left">&copy; 2026 L33DACTED</span>
     <nav class="footer-links" aria-label="Elsewhere">
-      <a href="https://x.com/s14ke_" rel="me noopener" target="_blank">X</a>
-      <a href="https://github.com/s14ke" rel="me noopener" target="_blank">GitHub</a>
+      <a href="https://x.com/l33dacted" rel="me noopener" target="_blank">X</a>
+      <a href="https://github.com/l33dacted" rel="me noopener" target="_blank">GitHub</a>
       <a href="mailto:leejuh1621@gmail.com">Email</a>
       <a class="is-feed" href="/atom.xml">RSS</a>
     </nav>

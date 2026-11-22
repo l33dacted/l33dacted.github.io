@@ -1,4 +1,4 @@
-/* s14ke — paper editorial
+/* L33DACTED — paper editorial
    white page, readable sans text, red accent, mono for metadata */
 
 :root {
@@ -68,15 +68,25 @@ body:not([data-page="post"]) .progress-bar { display: none; }
 .site-header { position: sticky; top: 0; z-index: 40; background: var(--bg); }
 .header-inner, .main-container, .footer-inner { max-width: var(--content-w); margin: 0 auto; padding-left: var(--page-gutter); padding-right: var(--page-gutter); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-top: 24px; padding-bottom: 14px; border-bottom: 2px solid var(--line-strong); }
-/* wordmark only — it sits on the container gutter, so it lines up with the content below */
-.logo { display: inline-block; font-family: var(--sans); font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: var(--text); }
+/* wordmark — sits on the container gutter, so it lines up with the content below.
+   Reads [REDACTED] at rest and decodes to [L33DACTED] on hover or focus. */
+.logo { display: inline-flex; align-items: baseline; font-family: var(--sans); font-size: 26px; font-weight: 600; letter-spacing: -0.02em; line-height: 1; color: var(--text); }
+/* A hidden copy of the longer string reserves the box so the swap never reflows
+   the header; works in a proportional face, where ch units would not. The negative
+   margin pulls the marker's padding back so the glyphs still start on the gutter. */
+.logo-swap { display: inline-grid; margin-left: -0.26em; }
+.logo-swap > * { grid-area: 1 / 1; justify-self: start; padding: 0.12em 0.26em; }
+.logo-ghost { visibility: hidden; }
+/* redaction marker: a red bar at rest that lifts to reveal the decoded name */
+.logo-text { background: var(--accent); color: var(--selection-text); transition: background-color 0.22s ease, color 0.22s ease; }
+.logo:hover .logo-text, .logo:focus-visible .logo-text { background: transparent; color: var(--accent); }
 .header-actions { display: flex; align-items: center; gap: 18px; }
 .site-nav { display: flex; align-items: center; gap: 26px; }
 .menu-toggle { display: none; }
 .nav-link { display: inline-block; padding-bottom: 3px; border-bottom: 1px solid transparent; color: var(--muted); font-family: var(--mono); font-size: 12px; letter-spacing: 0.01em; transition: color 0.15s ease, border-color 0.15s ease; }
 .nav-link:hover { color: var(--text); }
 .nav-link.active { color: var(--text); border-bottom-color: var(--accent); }
-.theme-toggle { display: inline-flex; align-items: center; justify-content: flex-end; width: 40px; height: 30px; padding: 0 0 0 14px; border: 0; border-left: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; transition: color 0.15s ease; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: flex-end; width: 40px; height: 30px; padding: 0 0 3px 14px; border: 0; border-left: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer; transition: color 0.15s ease; }
 .theme-toggle:hover { color: var(--accent); }
 .theme-icon { width: 18px; height: 18px; }
 .theme-icon-sun, html[data-theme="dark"] .theme-icon-moon { display: none; }
@@ -84,7 +94,7 @@ html[data-theme="dark"] .theme-icon-sun { display: block; }
 
 /* shared */
 .main-container { min-height: calc(100vh - 150px); }
-.mono, .entry-date, .entry-alt, .entry-meta, .list-sub, .list-kicker, .section-label, .toc-label, .toc-link, .post-meta, .post-nav-dir, .back-link, .footer-inner, .hero-facts, .tag-latest, .tag-count, .nf-kicker, .nf-msg { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 0.01em; }
+.mono, .entry-date, .entry-meta, .list-sub, .list-kicker, .section-label, .toc-label, .toc-link, .post-meta, .post-nav-dir, .back-link, .footer-inner, .tag-latest, .tag-count, .nf-kicker, .nf-msg { font-family: var(--mono); font-size: 12px; font-weight: 400; letter-spacing: 0.01em; }
 .section-label { display: flex; align-items: center; gap: 14px; color: var(--accent); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
 .section-rule { flex: 1; height: 1px; background: var(--line); }
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); transition: color 0.15s ease; }
@@ -93,7 +103,7 @@ html[data-theme="dark"] .theme-icon-sun { display: block; }
 .back-link:hover .back-arrow { transform: translateX(-3px); }
 
 /* hero */
-.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 44%); column-gap: clamp(20px, 4vw, 56px); row-gap: 40px; align-items: center; padding: 56px 0 48px; border-bottom: 1px solid var(--line); }
+.hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 44%); column-gap: clamp(20px, 4vw, 56px); row-gap: 40px; align-items: center; padding: 56px 0 48px; }
 .hero-title, .page-title, .post-heading { color: var(--text); font-family: var(--sans); font-weight: 600; letter-spacing: -0.025em; line-height: 1.1; text-wrap: balance; }
 .hero-title { font-size: clamp(44px, 5.2vw, 72px); }
 .hero-line, .hero-em { display: block; }
@@ -101,26 +111,16 @@ html[data-theme="dark"] .theme-icon-sun { display: block; }
 .hero-bio { max-width: 560px; margin-top: 24px; color: var(--soft); font-size: 19px; line-height: 1.55; text-wrap: pretty; }
 .hero-art { width: 100%; aspect-ratio: 1.42; background: url('../images/eye-of-providence-light.webp') 12% center / 120% auto no-repeat; opacity: 0.28; }
 html[data-theme="dark"] .hero-art { background-image: url('../images/eye-of-providence-dark.webp'); opacity: 0.34; }
-.hero-facts { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 28px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); line-height: 1.9; }
-.hero-facts .fact { display: flex; gap: 8px; }
-.hero-facts dt { color: var(--muted); }
-.hero-facts dd { color: var(--text); }
 .split-char { display: inline-block; white-space: pre; }
 
 /* feed */
 .feed { padding: 40px 0 72px; }
 .feed .section-label { margin-bottom: 8px; }
 .entry { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 32px; padding: 24px 0; border-bottom: 1px solid var(--line); }
-.entry-lead { padding: 28px 0; }
 .entry-side { display: flex; flex-direction: column; gap: 2px; line-height: 1.8; color: var(--dim); }
-.entry-alt { color: var(--accent); transition: color 0.15s ease; }
-a.entry-alt:hover { color: var(--accent-deep); text-decoration: underline; text-underline-offset: 3px; }
-.entry-alt-static { color: var(--dim); }
 .entry-title { display: block; color: var(--text); font-family: var(--sans); font-size: 26px; font-weight: 600; letter-spacing: -0.015em; line-height: 1.25; transition: color 0.15s ease; }
-.entry-lead .entry-title { font-size: 34px; line-height: 1.15; }
 .entry-title:hover { color: var(--accent); }
 .entry-excerpt { max-width: 640px; margin-top: 10px; color: var(--soft); font-size: 17px; line-height: 1.6; text-wrap: pretty; }
-.entry-lead .entry-excerpt { margin-top: 12px; }
 .entry-meta { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 12px; color: var(--dim); }
 .entry-tag { transition: color 0.15s ease; }
 .entry-tag:hover { color: var(--accent); }
@@ -145,8 +145,8 @@ a.entry-alt:hover { color: var(--accent-deep); text-decoration: underline; text-
 
 /* article — the TOC sits in the trailing column so the article keeps the
    container's left edge, the same line the masthead, lists and footer use */
-.post-layout { display: flex; align-items: flex-start; gap: 48px; }
-.toc-sidebar { display: none; flex: 0 0 208px; position: sticky; top: 100px; max-height: calc(100vh - 130px); overflow-y: auto; padding-top: 64px; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.post-layout { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; }
+.toc-sidebar { display: none; flex: 0 1 300px; min-width: 190px; position: sticky; top: 100px; max-height: calc(100vh - 130px); overflow-y: auto; padding-top: 64px; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
 @media (min-width: 1100px) { .toc-sidebar { display: block; } }
 
 /* collapsed contents for the widths where the sidebar is gone */
@@ -170,7 +170,7 @@ a.entry-alt:hover { color: var(--accent-deep); text-decoration: underline; text-
 .toc-sidebar .toc-link:hover { color: var(--text); }
 .toc-sidebar .toc-link.active { color: var(--accent); }
 .toc-sidebar .toc-link.active::before { width: 9px; background: var(--accent); }
-.post-article { flex: 1 1 720px; min-width: 0; max-width: 760px; padding: 56px 0 96px; }
+.post-article { flex: 1 1 640px; min-width: 0; max-width: 760px; padding: 56px 0 96px; }
 .post-article .back-link { margin-bottom: 32px; }
 .post-heading { margin-bottom: 22px; font-size: clamp(36px, 4.6vw, 54px); line-height: 1.12; }
 .post-deck { max-width: 650px; margin-bottom: 20px; color: var(--soft); font-size: 18.5px; line-height: 1.55; text-wrap: pretty; }
@@ -285,11 +285,10 @@ html[data-theme="dark"] .nf-layer { mix-blend-mode: screen; }
 @media (max-width: 860px) {
   .hero { grid-template-columns: minmax(0, 1fr); row-gap: 16px; }
   .hero-art { justify-self: center; max-width: 640px; }
-  .hero-facts { padding-top: 14px; }
 }
 @media (max-width: 720px) {
   .header-inner { position: relative; padding-top: 10px; padding-bottom: 10px; }
-  .logo { font-size: 22px; }
+  .logo { font-size: 21px; }
   .header-actions { gap: 8px; }
   .site-nav { gap: 10px; }
   .nav-link { font-size: 12px; }
@@ -305,7 +304,6 @@ html[data-theme="dark"] .nf-layer { mix-blend-mode: screen; }
   .entry, .feed-compact .entry { grid-template-columns: 1fr; gap: 6px; padding: 20px 0; }
   .entry-side { flex-direction: row; gap: 14px; }
   .entry-title, .feed-compact .entry-title { font-size: 22px; }
-  .entry-lead .entry-title { font-size: 27px; }
   .entry-excerpt { font-size: 16px; }
   .list-header { padding: 36px 0 22px; }
   .tag-row { grid-template-columns: 1fr auto; }

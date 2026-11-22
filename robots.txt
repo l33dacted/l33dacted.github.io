@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://s14ke.kr/sitemap.xml
+Sitemap: https://l33dacted.info/sitemap.xml
