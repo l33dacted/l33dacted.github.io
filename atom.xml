@@ -6,7 +6,7 @@
   <link href="https://l33dacted.info/atom.xml" rel="self"/>
   
   <link href="https://l33dacted.info/"/>
-  <updated>2026-11-22T19:33:09.329Z</updated>
+  <updated>2026-11-27T04:28:53.229Z</updated>
   <id>https://l33dacted.info/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Tearing Down eCos RTOS Embedded System Part 2 [KR]</title>
+    <link href="https://l33dacted.info/2026/11/24/Tearing-Down-eCos-RTOS-Embedded-System-Part-2-KR/"/>
+    <id>https://l33dacted.info/2026/11/24/Tearing-Down-eCos-RTOS-Embedded-System-Part-2-KR/</id>
+    <published>2026-11-24T12:15:00.000Z</published>
+    <updated>2026-11-27T04:28:53.229Z</updated>
+    
+    
+    <summary type="html">eCos RTOS 라우터 웹 서버의 인증 전 스택 오버플로우를 활용해 ROP 체인을 구성하고, 비인증 요청 한 번으로 임의 코드 실행에 이르는 과정.</summary>
+    
+    
+    
+    
+    <category term="IoT" scheme="https://l33dacted.info/tags/IoT/"/>
+    
+    <category term="RTOS" scheme="https://l33dacted.info/tags/RTOS/"/>
+    
+    <category term="1-Day" scheme="https://l33dacted.info/tags/1-Day/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Tearing Down eCos RTOS Embedded System Part 2</title>
+    <link href="https://l33dacted.info/2026/11/24/Tearing-Down-eCos-RTOS-Embedded-System-Part-2/"/>
+    <id>https://l33dacted.info/2026/11/24/Tearing-Down-eCos-RTOS-Embedded-System-Part-2/</id>
+    <published>2026-11-24T12:10:00.000Z</published>
+    <updated>2026-11-27T04:27:13.471Z</updated>
+    
+    
+    <summary type="html">A pre-authentication stack overflow in the eCos router&#39;s web server, turned into a ROP chain that calls the firmware&#39;s own functions to reach arbitrary code execution from a single unauthenticated request.</summary>
+    
+    
+    
+    
+    <category term="IoT" scheme="https://l33dacted.info/tags/IoT/"/>
+    
+    <category term="RTOS" scheme="https://l33dacted.info/tags/RTOS/"/>
+    
+    <category term="1-Day" scheme="https://l33dacted.info/tags/1-Day/"/>
+    
+  </entry>
   
   <entry>
     <title>CVE-2026-6250 [KR]</title>
